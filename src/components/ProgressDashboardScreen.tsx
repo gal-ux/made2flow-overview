@@ -243,7 +243,7 @@ export function ProgressDashboardScreen({
                   <tr
                     key={i}
                     onClick={() => onOpenProject?.(p.program)}
-                    className={`cursor-pointer hover:brightness-95 transition-all ${i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}`}
+                    className={`hoverable-row cursor-pointer ${i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}`}
                   >
                     <td className="px-[12px] py-[10px]">
                       <div className="flex flex-col gap-[2px]">
