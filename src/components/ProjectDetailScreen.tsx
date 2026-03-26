@@ -8,13 +8,17 @@ import { ArrowLeft, AlertCircle, Clock, TriangleAlert, ShieldAlert, Building, Ch
 type FacilityStatus = "Active" | "Blocked" | "Completed";
 type IssueType = "Blocked" | "Overdue" | null;
 
+interface Contact {
+  email: string;
+  phone: string;
+}
+
 interface Facility {
   name: string;
   country: string;
   tier: string;
   facilityType: string;
-  email: string;
-  phone: string;
+  contacts: Contact[];
   status: FacilityStatus;
   progress: string;
   lastUpdate: string;
@@ -22,13 +26,13 @@ interface Facility {
 }
 
 const FACILITIES: Facility[] = [
-  { name: "Nilat nihuan dyeing (laundry division)", country: "India",     tier: "Tier 1", facilityType: "Manufacturing",     email: "nike.hanoi@example.com",         phone: "+84 123 456 789", status: "Blocked",   progress: "2 / 4", lastUpdate: "2h ago",  issue: "Blocked"  },
-  { name: "Advance Tex",                            country: "Turkey",    tier: "Tier 1", facilityType: "Manufacturing",     email: "adidas.hcm@example.com",          phone: "+84 987 654 321", status: "Active",    progress: "3 / 4", lastUpdate: "4h ago",  issue: null       },
-  { name: "C&P Alia",                               country: "Vietnam",   tier: "Tier 2", facilityType: "Assembly",          email: "nike.danang@example.com",         phone: "+84 234\n567 890", status: "Active",   progress: "1 / 5", lastUpdate: "1d ago",  issue: null       },
-  { name: "Zhejiang Dayu Printing & Dyeing",        country: "China",     tier: "Tier 1", facilityType: "Quality\nControl",  email: "adidas.vungtau@example.com",      phone: "+84 567 890 123", status: "Active",    progress: "2 / 5", lastUpdate: "1d ago",  issue: null       },
-  { name: "Best Practice Textiles",                 country: "Sri Lanka", tier: "Tier 1", facilityType: "Manufacturing",     email: "nike.cantho@example.com",         phone: "+84 678 901 234", status: "Blocked",   progress: "3 / 5", lastUpdate: "3d ago",  issue: "Blocked"  },
-  { name: "Yu Fang Textiles",                       country: "China",     tier: "Tier 2", facilityType: "Distribution",      email: "adidas.dist.hanoi@example.com",   phone: "+84 345 678 901", status: "Blocked",   progress: "2 / 6", lastUpdate: "6d ago",  issue: "Blocked"  },
-  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",        email: "nike.haiphong@example.com",       phone: "+84 456 789 012", status: "Completed", progress: "4 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
+  { name: "Nilat nihuan dyeing (laundry division)", country: "India",     tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "ops.manager@nilatnihuan.com", phone: "+91 22 4567 8901" }, { email: "compliance@nilatnihuan.com", phone: "+91 22 4567 8902" }], status: "Blocked",   progress: "2 / 4", lastUpdate: "2h ago",  issue: "Blocked"  },
+  { name: "Advance Tex",                            country: "Turkey",    tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "adidas.hcm@example.com",          phone: "+90 212 987 6543" }],                                                                     status: "Active",    progress: "3 / 4", lastUpdate: "4h ago",  issue: null       },
+  { name: "C&P Alia",                               country: "Vietnam",   tier: "Tier 2", facilityType: "Assembly",      contacts: [{ email: "nike.danang@example.com",         phone: "+84 234 567 890" }, { email: "quality@cpalia.vn", phone: "+84 234 567 891" }],             status: "Active",    progress: "1 / 5", lastUpdate: "1d ago",  issue: null       },
+  { name: "Zhejiang Dayu Printing & Dyeing",        country: "China",     tier: "Tier 1", facilityType: "Quality Control",contacts: [{ email: "adidas.vungtau@example.com",     phone: "+86 571 8901 2345" }],                                                                    status: "Active",    progress: "2 / 5", lastUpdate: "1d ago",  issue: null       },
+  { name: "Best Practice Textiles",                 country: "Sri Lanka", tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "nike.cantho@example.com",         phone: "+94 11 678 9012" }],                                                                      status: "Blocked",   progress: "3 / 5", lastUpdate: "3d ago",  issue: "Blocked"  },
+  { name: "Yu Fang Textiles",                       country: "China",     tier: "Tier 2", facilityType: "Distribution",  contacts: [{ email: "adidas.dist.hanoi@example.com",   phone: "+86 571 3456 7890" }],                                                                    status: "Blocked",   progress: "2 / 6", lastUpdate: "6d ago",  issue: "Blocked"  },
+  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",    contacts: [{ email: "nike.haiphong@example.com",       phone: "+84 456 789 012" }],                                                                      status: "Completed", progress: "4 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
 ];
 
 const ALL_PROJECTS = [
@@ -84,13 +88,6 @@ function IssueBadge({ issue }: { issue: IssueType }) {
   return <span className="text-[#718d98] text-[13px]">—</span>;
 }
 
-function ProgressBar({ pct, color }: { pct: number; color: string }) {
-  return (
-    <div className="w-full h-[8px] bg-[#e8ecee] rounded-full overflow-hidden">
-      <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
-    </div>
-  );
-}
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -117,12 +114,12 @@ export function ProjectDetailScreen({
             className="flex items-center gap-[8px] text-[#308882] text-[13px] font-medium mb-[12px] hover:opacity-80 transition-opacity"
           >
             <ArrowLeft size={16} />
-            Back to Contract Overview
+            Back to Cohort Overview
           </button>
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-[8px] mb-[16px]">
-            <span className="text-[#718d98] text-[11px]">Contract:</span>
+            <span className="text-[#718d98] text-[11px]">Cohort:</span>
             <span className="bg-[#e8f3f5] text-[#308882] text-[11px] font-mono px-[8px] py-[2px] rounded-[6px]">CRP-2025-001</span>
             <span className="text-[#3c4c53] text-[11px]">APAC Textile Facilities Assessment</span>
             <span className="text-[#a0b3ba] text-[16px] leading-none">·</span>
@@ -235,8 +232,20 @@ export function ProjectDetailScreen({
                     </td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-nowrap">{f.tier}</td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-pre-wrap leading-tight">{f.facilityType}</td>
-                    <td className="px-4 py-[14px] text-[13px] text-[#718d98]">{f.email}</td>
-                    <td className="px-4 py-[14px] text-[13px] text-[#718d98] whitespace-pre-wrap leading-tight">{f.phone}</td>
+                    <td className="px-4 py-[14px] text-[13px] text-[#718d98]">
+                      {f.contacts.map((c, ci) => (
+                        <div key={ci} className={ci > 0 ? "border-t border-gray-100 pt-[6px] mt-[6px]" : ""}>
+                          {c.email}
+                        </div>
+                      ))}
+                    </td>
+                    <td className="px-4 py-[14px] text-[13px] text-[#718d98] whitespace-nowrap">
+                      {f.contacts.map((c, ci) => (
+                        <div key={ci} className={ci > 0 ? "border-t border-gray-100 pt-[6px] mt-[6px]" : ""}>
+                          {c.phone}
+                        </div>
+                      ))}
+                    </td>
                     <td className="px-4 py-[14px]"><FacilityStatusBadge status={f.status} /></td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-nowrap">{f.progress}</td>
                     <td className="px-4 py-[14px] text-[13px] text-[#718d98] whitespace-nowrap">{f.lastUpdate}</td>
@@ -248,10 +257,9 @@ export function ProjectDetailScreen({
           </div>
         </div>
 
-        {/* Issues & Blockers + Progress Detail */}
-        <div className="grid grid-cols-2 gap-[20px]">
-          {/* Issues & Blockers */}
-          <div className="bg-white rounded-[8px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] px-[20px] pt-[20px] pb-[20px]">
+        {/* Issues & Blockers */}
+        <div className="bg-white rounded-[8px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] px-[20px] pt-[20px] pb-[20px]">
+          <div className="w-full">
             <h2 className="text-[14px] font-semibold text-[#3c4c53] mb-[20px]">Issues & Blockers</h2>
 
             <div className="flex flex-col gap-[12px] mb-[20px]">
@@ -299,33 +307,6 @@ export function ProjectDetailScreen({
                 <p className="text-[11px] font-medium text-[#3c4c53] mb-[4px]">Nike Factory Hanoi</p>
                 <p className="text-[10px] text-[#718d98] pl-[14px] before:content-['•'] before:mr-[4px] before:text-[#718d98]">Energy consumption data</p>
               </div>
-            </div>
-          </div>
-
-          {/* Progress Detail */}
-          <div className="bg-white rounded-[8px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1),0px_1px_2px_0px_rgba(0,0,0,0.1)] px-[20px] pt-[20px] pb-[20px]">
-            <h2 className="text-[14px] font-semibold text-[#3c4c53] mb-[20px]">Progress Detail</h2>
-
-            <div className="flex flex-col gap-[12px] mb-[20px]">
-              {[
-                { label: "Completed Facilities", count: "1 of 7", pct: (1/7)*100, color: "#32d583" },
-                { label: "Active Facilities",    count: "3 of 7", pct: (3/7)*100, color: "#3aa69f" },
-                { label: "Blocked Facilities",   count: "3 of 7", pct: (3/7)*100, color: "#dc2626" },
-                { label: "Pre-DG / Intake",      count: "0 of 7", pct: 0,         color: "#a0b3ba" },
-              ].map(({ label, count, pct, color }) => (
-                <div key={label} className="flex flex-col gap-[4px]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[12px] text-[#718d98]">{label}</span>
-                    <span className="text-[12px] font-medium text-[#3c4c53]">{count}</span>
-                  </div>
-                  <ProgressBar pct={pct} color={color} />
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-[#e8ecee] pt-[16px] flex items-center justify-between">
-              <span className="text-[11px] text-[#718d98]">Overall project completion</span>
-              <span className="text-[14px] font-semibold text-[#3c4c53]">59%</span>
             </div>
           </div>
         </div>
