@@ -118,7 +118,7 @@ function PillBadge({ children, className }: { children: React.ReactNode; classNa
 export function ProgressDashboardScreen({
   activeScreen,
   onNavigate,
-  onOpenProject,
+  onOpenProject: _onOpenProject,
 }: {
   activeScreen: Screen;
   onNavigate: (s: Screen) => void;
@@ -137,7 +137,7 @@ export function ProgressDashboardScreen({
 
         {/* Filters row */}
         <div className="flex items-center gap-[20px] flex-wrap mb-[20px]">
-          {["Brands", "Programs", "Cohorts", "Facilities", "Countries", "Reporting period"].map((f) => (
+          {["Brands", "Programs", "Cohorts", "Facility Type", "Countries", "Reporting period"].map((f) => (
             <div
               key={f}
               className="flex items-center gap-[8px] border border-[#a0b3ba] bg-white rounded-[8px] px-[12px] py-[10px] text-[14px] leading-[20px] cursor-pointer hover:border-[#308882] transition-colors"
@@ -154,7 +154,7 @@ export function ProgressDashboardScreen({
 
         {/* ── Contract Summary ── */}
         <div className="bg-white rounded-[8px] p-[20px] mb-[16px]">
-          <h2 className="text-[16px] font-semibold leading-[24px] text-[#3c4c53] mb-[20px]">Contract Summary</h2>
+          <h2 className="text-[16px] font-semibold leading-[24px] text-[#3c4c53] mb-[20px]">Projects Summary</h2>
 
           <div className="grid grid-cols-3 gap-[20px] mb-[20px]">
             <StatCard label="Total Projects"       value="6" sub="of 15 available"  iconBg="#c2eaff" icon={<Layers size={16} color="#004266" />} />
@@ -168,12 +168,18 @@ export function ProgressDashboardScreen({
           {/* Progress bar */}
           <div className="flex flex-col gap-[10px]">
             <div className="h-[32px] w-full rounded-[6px] overflow-hidden flex">
-              <div className="bg-[#3b82f6]" style={{ width: "7%" }} />
-              <div className="bg-[#34d399] flex items-center justify-center" style={{ width: "27%" }}>
-                <span className="text-[11px] font-semibold text-white">Active – 27%</span>
+              <div className="bg-[#3b82f6] flex items-center justify-center overflow-hidden" style={{ width: "7%" }}>
+                <span className="text-[9px] font-semibold text-white whitespace-nowrap px-[2px]">Pre DG – 7%</span>
               </div>
-              <div className="bg-[#5b9aae]" style={{ width: "7%" }} />
-              <div className="bg-[#d1d5db] flex-1" />
+              <div className="bg-[#34d399] flex items-center justify-center overflow-hidden" style={{ width: "27%" }}>
+                <span className="text-[11px] font-semibold text-white whitespace-nowrap">Active – 27%</span>
+              </div>
+              <div className="bg-[#5b9aae] flex items-center justify-center overflow-hidden" style={{ width: "7%" }}>
+                <span className="text-[9px] font-semibold text-white whitespace-nowrap px-[2px]">Completed – 7%</span>
+              </div>
+              <div className="bg-[#d1d5db] flex-1 flex items-center justify-center overflow-hidden">
+                <span className="text-[11px] font-semibold text-[#718d98] whitespace-nowrap">Available Seats – 59%</span>
+              </div>
             </div>
             <div className="flex items-center gap-[16px]">
               {[
@@ -195,7 +201,7 @@ export function ProgressDashboardScreen({
         <div className="bg-white rounded-[8px] p-[20px]">
           <div className="flex items-center justify-between mb-[20px]">
             <div className="flex items-baseline gap-[10px]">
-              <h2 className="text-[16px] font-semibold leading-[24px] text-[#3c4c53]">Projects in this Contract</h2>
+              <h2 className="text-[16px] font-semibold leading-[24px] text-[#3c4c53]">Projects Overview Table</h2>
               <span className="text-[13px] text-[#718d98]">6 of 6</span>
             </div>
             <button className="flex items-center gap-[6px] px-[16px] py-[9px] rounded-[8px] bg-[#718d98] text-white text-[14px] font-semibold hover:bg-[#5e7882] transition-colors">
@@ -236,18 +242,18 @@ export function ProgressDashboardScreen({
                 {PROJECTS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}>
                     <td className="px-[12px] py-[10px]">
-                      <div className="flex flex-col gap-[2px]">
-                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.cohortName}</span>
-                        <span className="text-[11px] text-[#718d98]">{p.cohortPeriod}</span>
-                      </div>
+                      <a
+                        href="#"
+                        className="text-[14px] font-semibold leading-[20px] text-[#308882] hover:underline"
+                      >
+                        {p.cohortName}
+                      </a>
+                      <div className="text-[11px] text-[#718d98] mt-[2px]">{p.cohortPeriod}</div>
                     </td>
                     <td className="px-[12px] py-[10px]">
-                      <button
-                        onClick={() => onOpenProject?.(p.program)}
-                        className="text-[14px] font-semibold leading-[20px] text-[#308882] hover:underline text-left"
-                      >
-                        {p.program}
-                      </button>
+                      <div className="flex flex-col gap-[2px]">
+                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.program}</span>
+                      </div>
                     </td>
                     <td className="px-[12px] py-[10px]">
                       <PillBadge className="bg-[#c8f9dc] text-[#027a48]">{p.brand}</PillBadge>
