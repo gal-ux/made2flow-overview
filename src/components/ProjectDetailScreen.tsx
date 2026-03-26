@@ -28,7 +28,7 @@ const FACILITIES: Facility[] = [
   { name: "Zhejiang Dayu Printing & Dyeing",        country: "China",     tier: "Tier 1", facilityType: "Quality Control", phones: ["+86 571 8901 2345"],                                       emails: ["adidas.vungtau@example.com"],                                                    status: "Active",    progress: "2 / 5", lastUpdate: "1d ago",  issue: null       },
   { name: "Best Practice Textiles",                 country: "Sri Lanka", tier: "Tier 1", facilityType: "Manufacturing",  phones: ["+94 11 678 9012"],                                          emails: ["nike.cantho@example.com"],                                                       status: "Blocked",   progress: "3 / 5", lastUpdate: "3d ago",  issue: "Blocked"  },
   { name: "Yu Fang Textiles",                       country: "China",     tier: "Tier 2", facilityType: "Distribution",   phones: ["+86 571 3456 7890"],                                        emails: ["adidas.dist.hanoi@example.com"],                                                 status: "Blocked",   progress: "2 / 6", lastUpdate: "6d ago",  issue: "Blocked"  },
-  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",     phones: ["+84 456 789 012"],                                          emails: ["nike.haiphong@example.com"],                                                     status: "Completed", progress: "4 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
+  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",     phones: ["+84 456 789 012"],                                          emails: ["nike.haiphong@example.com"],                                                     status: "Completed", progress: "9 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
 ];
 
 const ALL_PROJECTS = [
@@ -187,12 +187,12 @@ export function ProjectDetailScreen({
             </div>
             <div className="flex flex-col items-end gap-[4px]">
               <span className="text-[11px] text-[#718d98]">Project Progress</span>
-              <span className="text-[28px] font-semibold text-[#3c4c53]">59%</span>
+              <span className="text-[28px] font-semibold text-[#3c4c53]">58%</span>
             </div>
           </div>
           {/* Progress bar */}
           <div className="w-full h-[12px] bg-[#e8ecee] rounded-full overflow-hidden">
-            <div className="bg-[#32d583] h-full rounded-full" style={{ width: "59%" }} />
+            <div className="bg-[#32d583] h-full rounded-full" style={{ width: "58%" }} />
           </div>
         </div>
 

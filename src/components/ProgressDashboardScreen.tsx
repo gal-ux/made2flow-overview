@@ -161,8 +161,8 @@ export function ProgressDashboardScreen({
             <StatCard label="Active Projects"      value="4" sub="67% in progress"  iconBg="#c3eae7" icon={<Activity size={16} color="#007a6e" />} />
             <StatCard label="Completed Projects"   value="1" sub="17% complete"     iconBg="#c8f9dc" icon={<CheckCircle size={16} color="#027a48" />} />
             <StatCard label="Total Facilities"     value="7" sub="2 brands"         iconBg="#fde8c8" icon={<Building2 size={16} color="#92400e" />} />
-            <StatCard label="Active Facilities"    value="2" sub="29% in progress"  iconBg="#c3eae7" icon={<Zap size={16} color="#007a6e" />} />
-            <StatCard label="Completed Facilities" value="2" sub="29% complete"     iconBg="#c8f9dc" icon={<CheckSquare size={16} color="#027a48" />} />
+            <StatCard label="Active Facilities"    value="3" sub="43% in progress"  iconBg="#c3eae7" icon={<Zap size={16} color="#007a6e" />} />
+            <StatCard label="Completed Facilities" value="1" sub="14% complete"     iconBg="#c8f9dc" icon={<CheckSquare size={16} color="#027a48" />} />
           </div>
 
           {/* Progress bar */}
