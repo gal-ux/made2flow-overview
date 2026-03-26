@@ -1,4 +1,4 @@
-import type {} from "react";
+import React from "react";
 import { NavBar } from "./NavBar";
 import type { Screen } from "../types";
 import { ArrowLeft, AlertCircle, Clock, TriangleAlert, ShieldAlert, Building, CheckCircle, Activity, AlertTriangle } from "lucide-react";
@@ -8,17 +8,13 @@ import { ArrowLeft, AlertCircle, Clock, TriangleAlert, ShieldAlert, Building, Ch
 type FacilityStatus = "Active" | "Blocked" | "Completed";
 type IssueType = "Blocked" | "Overdue" | null;
 
-interface Contact {
-  email: string;
-  phone: string;
-}
-
 interface Facility {
   name: string;
   country: string;
   tier: string;
   facilityType: string;
-  contacts: Contact[];
+  phones: string[];
+  emails: string[];
   status: FacilityStatus;
   progress: string;
   lastUpdate: string;
@@ -26,13 +22,13 @@ interface Facility {
 }
 
 const FACILITIES: Facility[] = [
-  { name: "Nilat nihuan dyeing (laundry division)", country: "India",     tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "ops.manager@nilatnihuan.com", phone: "+91 22 4567 8901" }, { email: "compliance@nilatnihuan.com", phone: "+91 22 4567 8902" }], status: "Blocked",   progress: "2 / 4", lastUpdate: "2h ago",  issue: "Blocked"  },
-  { name: "Advance Tex",                            country: "Turkey",    tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "adidas.hcm@example.com",          phone: "+90 212 987 6543" }],                                                                     status: "Active",    progress: "3 / 4", lastUpdate: "4h ago",  issue: null       },
-  { name: "C&P Alia",                               country: "Vietnam",   tier: "Tier 2", facilityType: "Assembly",      contacts: [{ email: "nike.danang@example.com",         phone: "+84 234 567 890" }, { email: "quality@cpalia.vn", phone: "+84 234 567 891" }],             status: "Active",    progress: "1 / 5", lastUpdate: "1d ago",  issue: null       },
-  { name: "Zhejiang Dayu Printing & Dyeing",        country: "China",     tier: "Tier 1", facilityType: "Quality Control",contacts: [{ email: "adidas.vungtau@example.com",     phone: "+86 571 8901 2345" }],                                                                    status: "Active",    progress: "2 / 5", lastUpdate: "1d ago",  issue: null       },
-  { name: "Best Practice Textiles",                 country: "Sri Lanka", tier: "Tier 1", facilityType: "Manufacturing", contacts: [{ email: "nike.cantho@example.com",         phone: "+94 11 678 9012" }],                                                                      status: "Blocked",   progress: "3 / 5", lastUpdate: "3d ago",  issue: "Blocked"  },
-  { name: "Yu Fang Textiles",                       country: "China",     tier: "Tier 2", facilityType: "Distribution",  contacts: [{ email: "adidas.dist.hanoi@example.com",   phone: "+86 571 3456 7890" }],                                                                    status: "Blocked",   progress: "2 / 6", lastUpdate: "6d ago",  issue: "Blocked"  },
-  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",    contacts: [{ email: "nike.haiphong@example.com",       phone: "+84 456 789 012" }],                                                                      status: "Completed", progress: "4 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
+  { name: "Nilat nihuan dyeing (laundry division)", country: "India",     tier: "Tier 1", facilityType: "Manufacturing",  phones: ["+91 22 4567 8901", "+91 22 4567 8902", "+91 22 4567 8903"], emails: ["ops@nilatnihuan.com", "compliance@nilatnihuan.com", "manager@nilatnihuan.com"], status: "Blocked",   progress: "2 / 4", lastUpdate: "2h ago",  issue: "Blocked"  },
+  { name: "Advance Tex",                            country: "Turkey",    tier: "Tier 1", facilityType: "Manufacturing",  phones: ["+90 212 987 6543"],                                          emails: ["adidas.hcm@example.com"],                                                        status: "Active",    progress: "3 / 4", lastUpdate: "4h ago",  issue: null       },
+  { name: "C&P Alia",                               country: "Vietnam",   tier: "Tier 2", facilityType: "Assembly",       phones: ["+84 234 567 890", "+84 234 567 891", "+84 234 567 892"],    emails: ["nike.danang@example.com", "quality@cpalia.vn", "logistics@cpalia.vn"],          status: "Active",    progress: "1 / 5", lastUpdate: "1d ago",  issue: null       },
+  { name: "Zhejiang Dayu Printing & Dyeing",        country: "China",     tier: "Tier 1", facilityType: "Quality Control", phones: ["+86 571 8901 2345"],                                       emails: ["adidas.vungtau@example.com"],                                                    status: "Active",    progress: "2 / 5", lastUpdate: "1d ago",  issue: null       },
+  { name: "Best Practice Textiles",                 country: "Sri Lanka", tier: "Tier 1", facilityType: "Manufacturing",  phones: ["+94 11 678 9012"],                                          emails: ["nike.cantho@example.com"],                                                       status: "Blocked",   progress: "3 / 5", lastUpdate: "3d ago",  issue: "Blocked"  },
+  { name: "Yu Fang Textiles",                       country: "China",     tier: "Tier 2", facilityType: "Distribution",   phones: ["+86 571 3456 7890"],                                        emails: ["adidas.dist.hanoi@example.com"],                                                 status: "Blocked",   progress: "2 / 6", lastUpdate: "6d ago",  issue: "Blocked"  },
+  { name: "PQ Colours",                             country: "Vietnam",   tier: "Tier 3", facilityType: "Processing",     phones: ["+84 456 789 012"],                                          emails: ["nike.haiphong@example.com"],                                                     status: "Completed", progress: "4 / 9", lastUpdate: "2w ago",  issue: "Overdue"  },
 ];
 
 const ALL_PROJECTS = [
@@ -86,6 +82,27 @@ function IssueBadge({ issue }: { issue: IssueType }) {
     );
   }
   return <span className="text-[#718d98] text-[13px]">—</span>;
+}
+
+function MoreTooltip({ extra }: { extra: string[] }) {
+  const [visible, setVisible] = React.useState(false);
+  return (
+    <div className="relative inline-block mt-[4px]">
+      <span
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        className="cursor-default text-[10px] font-medium text-[#718d98] bg-[#f3f5f6] px-[6px] py-[2px] rounded-[4px] select-none"
+      >
+        +{extra.length} more
+      </span>
+      {visible && (
+        <div className="absolute bottom-[calc(100%+4px)] left-0 z-50 bg-[#1f2937] text-white text-[11px] rounded-[6px] px-[10px] py-[8px] shadow-lg whitespace-nowrap">
+          {extra.map((v, i) => <div key={i}>{v}</div>)}
+          <div className="absolute top-full left-[10px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#1f2937]" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 
@@ -214,7 +231,7 @@ export function ProjectDetailScreen({
             <table className="w-full border border-[#e0e5e8] rounded-[8px] overflow-hidden" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
               <thead>
                 <tr className="bg-[#f9fafb] border-b border-[#e0e5e8]">
-                  {["Facility", "Country", "Tier", "Facility Type", "Contact", "Status", "Progress", "Last\nUpdate", "Issues"].map((h) => (
+                  {["Facility", "Country", "Tier", "Facility Type", "Phone", "Email", "Status", "Progress", "Last\nUpdate", "Issues"].map((h) => (
                     <th key={h} className="text-left px-4 py-[10px] text-[13px] font-medium text-[#718d98] whitespace-pre-wrap leading-tight">
                       {h}
                     </th>
@@ -232,13 +249,13 @@ export function ProjectDetailScreen({
                     </td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-nowrap">{f.tier}</td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-pre-wrap leading-tight">{f.facilityType}</td>
-                    <td className="px-4 py-[14px]" style={{ minWidth: 220 }}>
-                      {f.contacts.map((c, ci) => (
-                        <div key={ci} className={`flex flex-col py-[4px] ${ci > 0 ? "border-t border-gray-100 first:border-0" : ""}`}>
-                          <span className="text-[12px] text-[#3c4c53]">{c.phone}</span>
-                          <span className="text-[11px] text-[#718d98]">{c.email}</span>
-                        </div>
-                      ))}
+                    <td className="px-4 py-[14px] text-[12px] text-[#3c4c53] whitespace-nowrap" style={{ minWidth: 160 }}>
+                      {f.phones[0]}
+                      {f.phones.length > 1 && <MoreTooltip extra={f.phones.slice(1)} />}
+                    </td>
+                    <td className="px-4 py-[14px] text-[12px] text-[#718d98]" style={{ minWidth: 180 }}>
+                      {f.emails[0]}
+                      {f.emails.length > 1 && <MoreTooltip extra={f.emails.slice(1)} />}
                     </td>
                     <td className="px-4 py-[14px]"><FacilityStatusBadge status={f.status} /></td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-nowrap">{f.progress}</td>
