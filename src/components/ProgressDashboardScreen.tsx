@@ -118,7 +118,7 @@ function PillBadge({ children, className }: { children: React.ReactNode; classNa
 export function ProgressDashboardScreen({
   activeScreen,
   onNavigate,
-  onOpenProject: _onOpenProject,
+  onOpenProject,
 }: {
   activeScreen: Screen;
   onNavigate: (s: Screen) => void;
@@ -216,11 +216,11 @@ export function ProgressDashboardScreen({
             <table className="w-full text-left border-collapse" style={{ tableLayout: "auto", minWidth: 900 }}>
               <thead>
                 <tr className="bg-[#fffcf5] border-b border-[#d0d9dd]">
-                  <th className="px-[12px] py-[12px] text-[10px] font-medium text-[#5e7882] whitespace-nowrap" style={{ minWidth: 200 }}>
-                    <span className="flex items-center gap-[6px]">Program <FilterIcon /></span>
-                  </th>
                   <th className="px-[12px] py-[12px] text-[10px] font-medium text-[#5e7882] whitespace-nowrap" style={{ minWidth: 220 }}>
                     <span className="flex items-center gap-[6px]">Cohort <FilterIcon /></span>
+                  </th>
+                  <th className="px-[12px] py-[12px] text-[10px] font-medium text-[#5e7882] whitespace-nowrap" style={{ minWidth: 200 }}>
+                    <span className="flex items-center gap-[6px]">Program <FilterIcon /></span>
                   </th>
                   <th className="px-[12px] py-[12px] text-[10px] font-medium text-[#5e7882] whitespace-nowrap">
                     <span className="flex items-center gap-[6px]">Brand(s) <FilterIcon /></span>
@@ -240,20 +240,19 @@ export function ProgressDashboardScreen({
               </thead>
               <tbody>
                 {PROJECTS.map((p, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}>
-                    <td className="px-[12px] py-[10px]">
-                      <a
-                        href="#"
-                        className="text-[14px] font-semibold leading-[20px] text-[#308882] hover:underline"
-                      >
-                        {p.cohortName}
-                      </a>
-                      <div className="text-[11px] text-[#718d98] mt-[2px]">{p.cohortPeriod}</div>
-                    </td>
+                  <tr
+                    key={i}
+                    onClick={() => onOpenProject?.(p.program)}
+                    className={`cursor-pointer hover:bg-[#f0f4f5] transition-colors ${i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}`}
+                  >
                     <td className="px-[12px] py-[10px]">
                       <div className="flex flex-col gap-[2px]">
-                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.program}</span>
+                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.cohortName}</span>
+                        <span className="text-[11px] text-[#718d98]">{p.cohortPeriod}</span>
                       </div>
+                    </td>
+                    <td className="px-[12px] py-[10px]">
+                      <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.program}</span>
                     </td>
                     <td className="px-[12px] py-[10px]">
                       <PillBadge className="bg-[#c8f9dc] text-[#027a48]">{p.brand}</PillBadge>
