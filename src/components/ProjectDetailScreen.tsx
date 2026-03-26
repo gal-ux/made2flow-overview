@@ -302,15 +302,15 @@ export function ProjectDetailScreen({
                 </div>
               </div>
 
-              {/* Missing Data Items */}
+              {/* Edit Request */}
               <div className="bg-[#fefce8] border border-[#fde047] rounded-[8px] px-[12px] py-[12px] flex items-start gap-[12px]">
                 <TriangleAlert size={16} className="text-[#ca8a04] shrink-0 mt-[2px]" />
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-[4px]">
-                    <span className="text-[12px] font-medium text-[#3c4c53]">Missing Data Items</span>
+                    <span className="text-[12px] font-medium text-[#3c4c53]">Edit Request</span>
                     <span className="text-[14px] font-semibold text-[#3c4c53]">1</span>
                   </div>
-                  <span className="text-[11px] text-[#718d98]">Incomplete information</span>
+                  <span className="text-[11px] text-[#718d98]">Pending Verification</span>
                 </div>
               </div>
             </div>
