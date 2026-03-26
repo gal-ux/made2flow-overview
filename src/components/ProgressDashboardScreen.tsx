@@ -131,14 +131,9 @@ export function ProgressDashboardScreen({
       <main className="mx-auto px-[70px] py-[40px]" style={{ maxWidth: 1440 }}>
 
         {/* Page title */}
-        <h1 className="text-[26px] font-semibold leading-[32px] text-[#3c4c53] mb-[4px]">
-          Data Gathering Progress Dashboard ✓
+        <h1 className="text-[26px] font-semibold leading-[32px] text-[#3c4c53] mb-[20px]">
+          Data Gathering Progress Dashboard
         </h1>
-        <div className="flex items-center gap-[10px] mb-[20px]">
-          <span className="text-[14px] font-semibold text-[#308882]">CRP-2025-001</span>
-          <span className="text-[14px] text-[#a0b3ba]">•</span>
-          <span className="text-[14px] text-[#718d98]">APAC Textile Facilities Assessment</span>
-        </div>
 
         {/* Filters row */}
         <div className="flex items-center gap-[20px] flex-wrap mb-[20px]">
@@ -173,28 +168,25 @@ export function ProgressDashboardScreen({
           {/* Progress bar */}
           <div className="flex flex-col gap-[10px]">
             <div className="h-[32px] w-full rounded-[6px] overflow-hidden flex">
+              <div className="bg-[#3b82f6]" style={{ width: "7%" }} />
               <div className="bg-[#34d399] flex items-center justify-center" style={{ width: "27%" }}>
                 <span className="text-[11px] font-semibold text-white">Active – 27%</span>
               </div>
               <div className="bg-[#5b9aae]" style={{ width: "7%" }} />
-              <div className="bg-[#3b82f6]" style={{ width: "7%" }} />
               <div className="bg-[#d1d5db] flex-1" />
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-[16px]">
-                {[
-                  { color: "#34d399", label: "Active" },
-                  { color: "#5b9aae", label: "Completed" },
-                  { color: "#3b82f6", label: "Pre-DG" },
-                  { color: "#d1d5db", label: "Available Seats" },
-                ].map(({ color, label }) => (
-                  <div key={label} className="flex items-center gap-[6px]">
-                    <div className="w-[8px] h-[8px] rounded-full shrink-0" style={{ backgroundColor: color }} />
-                    <span className="text-[12px] text-[#718d98]">{label}</span>
-                  </div>
-                ))}
-              </div>
-              <span className="text-[12px] text-[#718d98]">6 of 15 project slots used • 29% facilities completed</span>
+            <div className="flex items-center gap-[16px]">
+              {[
+                { color: "#3b82f6", label: "Pre Data Gathering" },
+                { color: "#34d399", label: "Active" },
+                { color: "#5b9aae", label: "Completed" },
+                { color: "#d1d5db", label: "Available Seats" },
+              ].map(({ color, label }) => (
+                <div key={label} className="flex items-center gap-[6px]">
+                  <div className="w-[8px] h-[8px] rounded-full shrink-0" style={{ backgroundColor: color }} />
+                  <span className="text-[12px] text-[#718d98]">{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -244,18 +236,18 @@ export function ProgressDashboardScreen({
                 {PROJECTS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-[#f3f5f6]"}>
                     <td className="px-[12px] py-[10px]">
+                      <div className="flex flex-col gap-[2px]">
+                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.cohortName}</span>
+                        <span className="text-[11px] text-[#718d98]">{p.cohortPeriod}</span>
+                      </div>
+                    </td>
+                    <td className="px-[12px] py-[10px]">
                       <button
                         onClick={() => onOpenProject?.(p.program)}
                         className="text-[14px] font-semibold leading-[20px] text-[#308882] hover:underline text-left"
                       >
                         {p.program}
                       </button>
-                    </td>
-                    <td className="px-[12px] py-[10px]">
-                      <div className="flex flex-col gap-[2px]">
-                        <span className="text-[12px] leading-[18px] text-[#3c4c53]">{p.cohortName}</span>
-                        <span className="text-[11px] text-[#718d98]">{p.cohortPeriod}</span>
-                      </div>
                     </td>
                     <td className="px-[12px] py-[10px]">
                       <PillBadge className="bg-[#c8f9dc] text-[#027a48]">{p.brand}</PillBadge>
