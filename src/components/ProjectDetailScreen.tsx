@@ -214,7 +214,7 @@ export function ProjectDetailScreen({
             <table className="w-full border border-[#e0e5e8] rounded-[8px] overflow-hidden" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
               <thead>
                 <tr className="bg-[#f9fafb] border-b border-[#e0e5e8]">
-                  {["Facility", "Country", "Tier", "Facility Type", "Email", "Phone", "Status", "Progress", "Last\nUpdate", "Issues"].map((h) => (
+                  {["Facility", "Country", "Tier", "Facility Type", "Contact", "Status", "Progress", "Last\nUpdate", "Issues"].map((h) => (
                     <th key={h} className="text-left px-4 py-[10px] text-[13px] font-medium text-[#718d98] whitespace-pre-wrap leading-tight">
                       {h}
                     </th>
@@ -232,17 +232,11 @@ export function ProjectDetailScreen({
                     </td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-nowrap">{f.tier}</td>
                     <td className="px-4 py-[14px] text-[13px] text-[#3c4c53] whitespace-pre-wrap leading-tight">{f.facilityType}</td>
-                    <td className="px-4 py-[14px] text-[13px] text-[#718d98]">
+                    <td className="px-4 py-[14px]" style={{ minWidth: 220 }}>
                       {f.contacts.map((c, ci) => (
-                        <div key={ci} className={ci > 0 ? "border-t border-gray-100 pt-[6px] mt-[6px]" : ""}>
-                          {c.email}
-                        </div>
-                      ))}
-                    </td>
-                    <td className="px-4 py-[14px] text-[13px] text-[#718d98] whitespace-nowrap">
-                      {f.contacts.map((c, ci) => (
-                        <div key={ci} className={ci > 0 ? "border-t border-gray-100 pt-[6px] mt-[6px]" : ""}>
-                          {c.phone}
+                        <div key={ci} className={`flex flex-col py-[4px] ${ci > 0 ? "border-t border-gray-100 first:border-0" : ""}`}>
+                          <span className="text-[12px] text-[#3c4c53]">{c.phone}</span>
+                          <span className="text-[11px] text-[#718d98]">{c.email}</span>
                         </div>
                       ))}
                     </td>
