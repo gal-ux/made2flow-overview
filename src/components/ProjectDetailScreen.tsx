@@ -96,9 +96,13 @@ function MoreTooltip({ extra }: { extra: string[] }) {
         +{extra.length} more
       </span>
       {visible && (
-        <div className="absolute bottom-[calc(100%+4px)] left-0 z-50 bg-[#1f2937] text-white text-[11px] rounded-[6px] px-[10px] py-[8px] shadow-lg whitespace-nowrap">
-          {extra.map((v, i) => <div key={i}>{v}</div>)}
-          <div className="absolute top-full left-[10px] w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#1f2937]" />
+        <div
+          className="absolute bottom-[calc(100%+6px)] left-1/2 -translate-x-1/2 z-50 rounded-2xl px-5 py-4 whitespace-nowrap"
+          style={{ background: "#ffffff", boxShadow: "0px 4px 24px rgba(0,0,0,0.10)" }}
+        >
+          {extra.map((v, i) => (
+            <div key={i} className="text-sm font-semibold text-[#2d4a52]">{v}</div>
+          ))}
         </div>
       )}
     </div>
