@@ -132,7 +132,7 @@ export function ProgressDashboardScreen({
 
         {/* Page title */}
         <h1 className="text-[26px] font-semibold leading-[32px] text-[#3c4c53] mb-[4px]">
-          Data Gathering Progress Dashboard
+          Data Gathering Progress Dashboard ✓
         </h1>
         <div className="flex items-center gap-[10px] mb-[20px]">
           <span className="text-[14px] font-semibold text-[#308882]">CRP-2025-001</span>
