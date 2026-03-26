@@ -101,7 +101,7 @@ function MoreTooltip({ extra }: { extra: string[] }) {
           style={{ background: "#ffffff", boxShadow: "0px 4px 24px rgba(0,0,0,0.10)" }}
         >
           {extra.map((v, i) => (
-            <div key={i} className="text-sm font-semibold text-[#2d4a52]">{v}</div>
+            <div key={i} className="text-sm font-normal text-[#2d4a52]">{v}</div>
           ))}
         </div>
       )}
